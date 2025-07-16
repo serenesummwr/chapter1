@@ -3,7 +3,7 @@ package se233.chapter1.model.character;
 public class MagicalCharacter extends BasedCharacter {
     public MagicalCharacter(String name, String imgpath, int basedDef, int basedRes) {
         this.name = name;
-        this.type = DamageType.physical;
+        this.type = DamageType.magical;
         this.imgpath = imgpath;
         this.fullHp = 30;
         this.basedPow = 50;
