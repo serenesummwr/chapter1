@@ -16,8 +16,11 @@ import se233.chapter1.view.EquipPane;
 import se233.chapter1.view.InventoryPane;
 
 import java.util.ArrayList;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Launcher extends Application {
+    private static final Logger logger = LogManager.getLogger(Launcher.class);
     private static Scene mainScene;
     private static BasedCharacter mainCharacter = null;
 
@@ -56,15 +59,17 @@ public class Launcher extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        logger.info("Application starting...");
         primaryStage.setTitle("Chapter1");
         primaryStage.setResizable(false);
         primaryStage.show();
         mainCharacter = GenCharacter.setUpCharacter();
         allEquipments = GenItemList.setUpItemList();
+        logger.info("Initial character '{}' created. Inventory size={}.", mainCharacter != null ? mainCharacter.getName() : "<none>", allEquipments != null ? allEquipments.size() : 0);
         Pane mainPane = getMainPane();
         mainScene = new Scene(mainPane);
         primaryStage.setScene(mainScene);
-
+        logger.info("JavaFX primary stage initialized.");
     }
 
     public Pane getMainPane() {
@@ -83,6 +88,12 @@ public class Launcher extends Application {
         characterPane.drawPane(mainCharacter);
         equipPane.drawPane(equippedWeapon, equippedArmor);
         inventoryPane.drawPane(allEquipments);
+        if (logger.isDebugEnabled()) {
+            logger.debug("Pane refreshed. Equipped Weapon='{}' Armor='{}' InventorySize={}",
+                    equippedWeapon != null ? equippedWeapon.getName() : "-",
+                    equippedArmor != null ? equippedArmor.getName() : "-",
+                    allEquipments != null ? allEquipments.size() : 0);
+        }
     }
 
     public static BasedCharacter getMainCharacter() {
